@@ -12,7 +12,7 @@ from surprise import SVD, Dataset
 from surprise.model_selection import cross_validate
 
 
-def main():
+def main() -> None:
     """Main function to train and save the model."""
 
     print("=" * 60)

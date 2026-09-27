@@ -273,6 +273,12 @@ class TestErrorHandling:
         response = test_client.post("/health")
         assert response.status_code == 405
 
+    def test_large_payload_rejected(self, test_client):
+        """Test that extremely large payloads are rejected by validation."""
+        large_payload = {"user_id": "1" * 10000, "movie_id": "242"}
+        response = test_client.post("/predict", json=large_payload)
+        assert response.status_code in [400, 422]
+
 
 class TestModelInfoEndpoint:
     """Tests for /model/info endpoint."""

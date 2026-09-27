@@ -3,7 +3,7 @@ FastAPI application for Movie Rating Prediction.
 """
 
 import logging
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,7 +43,7 @@ model: Optional[MovieRatingModel] = None
 
 
 @app.on_event("startup")
-async def startup_event():
+async def startup_event() -> None:
     """Load model when application starts."""
     global model
     try:
@@ -54,7 +54,7 @@ async def startup_event():
 
 
 @app.get("/", tags=["Info"])
-async def root():
+async def root() -> Dict[str, str]:
     """Root endpoint with API information."""
     return {
         "name": API_TITLE,
@@ -66,7 +66,7 @@ async def root():
 
 
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
-async def health_check():
+async def health_check() -> HealthResponse:
     """
     Health check endpoint.
 
@@ -79,7 +79,7 @@ async def health_check():
 
 
 @app.post("/predict", response_model=PredictionResponse, tags=["Prediction"])
-async def predict(request: PredictionRequest):
+async def predict(request: PredictionRequest) -> PredictionResponse:
     """
     Predict movie rating for a user.
 
@@ -106,7 +106,7 @@ async def predict(request: PredictionRequest):
 
 
 @app.post("/predict/batch", response_model=BatchPredictionResponse, tags=["Prediction"])
-async def predict_batch(request: BatchPredictionRequest):
+async def predict_batch(request: BatchPredictionRequest) -> BatchPredictionResponse:
     """
     Predict movie ratings for multiple user-movie pairs.
 
@@ -138,7 +138,7 @@ async def predict_batch(request: BatchPredictionRequest):
 
 
 @app.get("/model/info", tags=["Info"])
-async def model_info():
+async def model_info() -> Dict[str, Any]:
     """Get information about the loaded model."""
     return {
         "model_version": MODEL_VERSION,
