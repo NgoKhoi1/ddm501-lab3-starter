@@ -18,9 +18,13 @@ Implement comprehensive testing strategies and CI/CD pipelines for the movie rat
 
 ### Team Members
 
-| Name | Student ID | Role |
-|---|---|---|
-| _TODO_ | _TODO_ | _TODO_ |
+| Name | Student ID | Role | Contribution |
+|---|---|---|---|
+| Phạm Minh Hoàng | _TODO_ | Unit & Data Testing | Unit tests for the model and schemas (`tests/unit/`), data quality tests (`tests/data/`), shared fixtures (`tests/conftest.py`) |
+| Nguyễn Công Trọng | _TODO_ | Integration & Model Testing | API integration tests (`tests/integration/`), model behavioral tests (`tests/model/`), testing strategy document (`docs/TESTING_STRATEGY.md`) |
+| Ngô Minh Khôi | _TODO_ | CI/CD & Code Quality | CI/CD pipelines (`.github/workflows/`), pre-commit hooks and tool config (`.pre-commit-config.yaml`, `pyproject.toml`), Dockerfile, README |
+
+Each member contributed roughly one third (~33%) of the total work.
 
 ## Learning Objectives
 
