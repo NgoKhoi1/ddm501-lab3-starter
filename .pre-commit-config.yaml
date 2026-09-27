@@ -2,8 +2,6 @@
 # Pre-commit hooks configuration
 # DDM501 - Lab 3: Testing & CI/CD
 #
-# TODO: Complete this configuration
-#
 # Setup:
 #   pip install pre-commit
 #   pre-commit install
@@ -20,6 +18,7 @@ repos:
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        args: ['--markdown-linebreak-ext=md']
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-json
@@ -29,54 +28,56 @@ repos:
       - id: detect-private-key
 
   # ===========================================================================
-  # TODO 1: Add Black formatter
+  # Black formatter
   # ===========================================================================
-  # - repo: https://github.com/psf/black
-  #   rev: 23.12.1
-  #   hooks:
-  #     - id: black
-  #       language_version: python3.10
-  #       args: ['--line-length=100']
+  # No language_version pin, so the hook uses whatever Python 3 is installed
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        args: ['--line-length=100']
 
   # ===========================================================================
-  # TODO 2: Add isort for import sorting
+  # isort for import sorting
   # ===========================================================================
-  # - repo: https://github.com/pycqa/isort
-  #   rev: 5.13.2
-  #   hooks:
-  #     - id: isort
-  #       args: ['--profile=black', '--line-length=100']
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--profile=black', '--line-length=100']
 
   # ===========================================================================
-  # TODO 3: Add Flake8 linter
+  # Flake8 linter
   # ===========================================================================
-  # - repo: https://github.com/pycqa/flake8
-  #   rev: 7.0.0
-  #   hooks:
-  #     - id: flake8
-  #       args: ['--max-line-length=100', '--exclude=__pycache__,venv']
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=100', '--exclude=__pycache__,venv']
 
   # ===========================================================================
-  # TODO 4: Add mypy type checker (BONUS)
+  # mypy type checker
   # ===========================================================================
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: v1.8.0
-  #   hooks:
-  #     - id: mypy
-  #       additional_dependencies:
-  #         - types-requests
-  #         - pydantic
-  #       args: ['--ignore-missing-imports']
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        files: ^app/
+        additional_dependencies:
+          - types-requests
+          - pydantic==2.5.2
+          - fastapi==0.104.1
+        args: ['--ignore-missing-imports']
 
   # ===========================================================================
-  # TODO 5: Add pytest hook (BONUS)
+  # pytest hook
   # ===========================================================================
-  # This runs tests before every commit (can be slow)
-  # - repo: local
-  #   hooks:
-  #     - id: pytest
-  #       name: pytest
-  #       entry: pytest tests/unit/ -v --tb=short
-  #       language: system
-  #       pass_filenames: false
-  #       always_run: true
+  # Runs unit tests before every commit (uses the active virtual environment)
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: python -m pytest tests/unit/ -q --tb=short
+        language: system
+        pass_filenames: false
+        always_run: true

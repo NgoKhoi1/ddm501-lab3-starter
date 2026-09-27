@@ -108,7 +108,9 @@ class TestModelDirectional:
         for pair in known_user_movie_pairs:
             prediction = trained_model.predict(pair["user_id"], pair["movie_id"])
             actual = pair["actual_rating"]
-            assert abs(prediction - actual) < 1.5, f"Prediction {prediction} too far from actual {actual}"
+            assert (
+                abs(prediction - actual) < 1.5
+            ), f"Prediction {prediction} too far from actual {actual}"
 
     def test_different_movies_different_predictions(self, trained_model):
         """
@@ -176,8 +178,7 @@ class TestMinimumFunctionality:
         - If all predictions are identical, model might be broken
         """
         predictions = [
-            trained_model.predict(p["user_id"], p["movie_id"])
-            for p in known_user_movie_pairs
+            trained_model.predict(p["user_id"], p["movie_id"]) for p in known_user_movie_pairs
         ]
         assert len(set(predictions)) > 1, "All predictions are identical"
 

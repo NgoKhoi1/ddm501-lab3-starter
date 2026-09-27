@@ -11,11 +11,11 @@ import pytest
 from pydantic import ValidationError
 
 from app.schemas import (
+    BatchPredictionRequest,
+    HealthResponse,
+    PredictionItem,
     PredictionRequest,
     PredictionResponse,
-    HealthResponse,
-    BatchPredictionRequest,
-    PredictionItem,
 )
 
 
@@ -137,10 +137,7 @@ class TestPredictionResponse:
         TODO: Implement this test
         """
         response = PredictionResponse(
-            user_id="196",
-            movie_id="242",
-            predicted_rating=3.5,
-            model_version="1.0.0"
+            user_id="196", movie_id="242", predicted_rating=3.5, model_version="1.0.0"
         )
         assert response.predicted_rating == 3.5
         assert response.model_version == "1.0.0"
@@ -156,7 +153,7 @@ class TestPredictionResponse:
                 user_id="196",
                 movie_id="242",
                 predicted_rating=0.5,  # Below minimum
-                model_version="1.0.0"
+                model_version="1.0.0",
             )
 
     def test_rating_above_maximum_raises_error(self):
@@ -170,7 +167,7 @@ class TestPredictionResponse:
                 user_id="196",
                 movie_id="242",
                 predicted_rating=5.5,  # Above maximum
-                model_version="1.0.0"
+                model_version="1.0.0",
             )
 
     def test_rating_at_boundaries(self):
@@ -181,10 +178,7 @@ class TestPredictionResponse:
         """
         for rating in (1.0, 5.0):
             response = PredictionResponse(
-                user_id="196",
-                movie_id="242",
-                predicted_rating=rating,
-                model_version="1.0.0"
+                user_id="196", movie_id="242", predicted_rating=rating, model_version="1.0.0"
             )
             assert response.predicted_rating == rating
 
