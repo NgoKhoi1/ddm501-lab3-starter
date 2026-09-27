@@ -2,7 +2,7 @@
 Pydantic schemas for request/response validation.
 """
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import List
 
 
@@ -23,7 +23,9 @@ class PredictionRequest(BaseModel):
 
 class PredictionResponse(BaseModel):
     """Response schema for prediction endpoint."""
-    
+
+    model_config = ConfigDict(protected_namespaces=())
+
     user_id: str
     movie_id: str
     predicted_rating: float = Field(..., ge=1.0, le=5.0)
@@ -32,7 +34,9 @@ class PredictionResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     """Response schema for health check endpoint."""
-    
+
+    model_config = ConfigDict(protected_namespaces=())
+
     status: str
     model_loaded: bool
 

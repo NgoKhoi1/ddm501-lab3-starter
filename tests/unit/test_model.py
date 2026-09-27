@@ -40,10 +40,8 @@ class TestMovieRatingModel:
         - Call trained_model.predict() with valid user_id and movie_id
         - Assert that the result is an instance of float
         """
-        # TODO: Implement
-        # result = trained_model.predict("196", "242")
-        # assert isinstance(result, float)
-        pass
+        result = trained_model.predict("196", "242")
+        assert isinstance(result, float)
     
     # =========================================================================
     # TODO 2: Implement Rating Range Tests
@@ -57,10 +55,8 @@ class TestMovieRatingModel:
         - Call predict() with a valid user-movie pair
         - Assert that result is >= 1.0 and <= 5.0
         """
-        # TODO: Implement
-        # result = trained_model.predict("196", "242")
-        # assert 1.0 <= result <= 5.0
-        pass
+        result = trained_model.predict("196", "242")
+        assert 1.0 <= result <= 5.0
     
     def test_predict_multiple_pairs_all_in_range(self, trained_model, known_user_movie_pairs):
         """
@@ -70,11 +66,9 @@ class TestMovieRatingModel:
         - Loop through known_user_movie_pairs
         - For each pair, call predict() and verify range
         """
-        # TODO: Implement
-        # for pair in known_user_movie_pairs:
-        #     result = trained_model.predict(pair["user_id"], pair["movie_id"])
-        #     assert 1.0 <= result <= 5.0
-        pass
+        for pair in known_user_movie_pairs:
+            result = trained_model.predict(pair["user_id"], pair["movie_id"])
+            assert 1.0 <= result <= 5.0
     
     # =========================================================================
     # TODO 3: Implement Batch Prediction Tests
@@ -89,11 +83,9 @@ class TestMovieRatingModel:
         - Call predict_batch()
         - Assert result is a list
         """
-        # TODO: Implement
-        # pairs = [("196", "242"), ("186", "302")]
-        # results = trained_model.predict_batch(pairs)
-        # assert isinstance(results, list)
-        pass
+        pairs = [("196", "242"), ("186", "302")]
+        results = trained_model.predict_batch(pairs)
+        assert isinstance(results, list)
     
     def test_predict_batch_returns_correct_length(self, trained_model):
         """
@@ -103,11 +95,9 @@ class TestMovieRatingModel:
         - Create list of pairs
         - Assert len(results) == len(pairs)
         """
-        # TODO: Implement
-        # pairs = [("196", "242"), ("186", "302"), ("22", "377")]
-        # results = trained_model.predict_batch(pairs)
-        # assert len(results) == len(pairs)
-        pass
+        pairs = [("196", "242"), ("186", "302"), ("22", "377")]
+        results = trained_model.predict_batch(pairs)
+        assert len(results) == len(pairs)
     
     def test_predict_batch_all_values_in_range(self, trained_model):
         """
@@ -115,8 +105,9 @@ class TestMovieRatingModel:
         
         TODO: Implement this test
         """
-        # TODO: Implement
-        pass
+        pairs = [("196", "242"), ("186", "302"), ("22", "377"), ("244", "51")]
+        results = trained_model.predict_batch(pairs)
+        assert all(1.0 <= r <= 5.0 for r in results)
     
     # =========================================================================
     # TODO 4: Implement is_loaded() Tests
@@ -128,10 +119,8 @@ class TestMovieRatingModel:
         
         TODO: Implement this test
         """
-        # TODO: Implement
-        # result = trained_model.is_loaded()
-        # assert isinstance(result, bool)
-        pass
+        result = trained_model.is_loaded()
+        assert isinstance(result, bool)
     
     def test_is_loaded_returns_true_for_loaded_model(self, trained_model):
         """
@@ -139,9 +128,7 @@ class TestMovieRatingModel:
         
         TODO: Implement this test
         """
-        # TODO: Implement
-        # assert trained_model.is_loaded() == True
-        pass
+        assert trained_model.is_loaded() is True
     
     # =========================================================================
     # TODO 5: Implement Error Handling Tests (BONUS)
@@ -154,8 +141,11 @@ class TestMovieRatingModel:
         TODO: Implement this test (BONUS)
         - This might raise an exception or return a default value
         """
-        # TODO: Implement
-        pass
+        # Surprise treats None as an unknown user and falls back to a
+        # default estimate instead of raising
+        result = trained_model.predict(None, "242")
+        assert isinstance(result, float)
+        assert 1.0 <= result <= 5.0
     
     def test_predict_with_empty_string(self, trained_model):
         """
@@ -163,8 +153,10 @@ class TestMovieRatingModel:
         
         TODO: Implement this test (BONUS)
         """
-        # TODO: Implement
-        pass
+        # Unknown user and movie -> prediction falls back to the global mean
+        result = trained_model.predict("", "")
+        expected = round(trained_model.model.trainset.global_mean, 2)
+        assert result == pytest.approx(expected)
 
 
 class TestModelFileHandling:

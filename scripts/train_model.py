@@ -31,7 +31,8 @@ def main():
     
     # Define model
     print("\n[2/4] Performing cross-validation...")
-    model = SVD(n_factors=100, n_epochs=20, lr_all=0.005, reg_all=0.02)
+    # random_state makes training reproducible across machines
+    model = SVD(n_factors=100, n_epochs=30, lr_all=0.005, reg_all=0.02, random_state=42)
     
     # Cross-validation
     cv_results = cross_validate(model, data, measures=['RMSE', 'MAE'], cv=5, verbose=True)

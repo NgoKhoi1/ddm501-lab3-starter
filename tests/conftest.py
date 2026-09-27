@@ -23,7 +23,10 @@ def test_client():
     
     Scope: session - created once for all tests
     """
-    return TestClient(app)
+    # Using the client as a context manager runs the startup event,
+    # which loads the model
+    with TestClient(app) as client:
+        yield client
 
 
 # =============================================================================
